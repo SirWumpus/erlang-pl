@@ -9,5 +9,5 @@
   {env,[]},
   {modules, [epl]},
   {licenses, ["MIT"]},
-  {links, []}
+  {links,[{"Github","https://github.com/SirWumpus/erlang-pl"}]}
  ]}.
