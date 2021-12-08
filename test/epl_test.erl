@@ -15,6 +15,7 @@ get_path_test_() ->
 	?_assertMatch(undefined, epl:get_path(?PLIST3, [l,bar])),
 % hmm
 %	?_assertMatch(undefined, epl:get_path(?PLIST2, [b,c,d,x,y,z])),
+	?_assertMatch(?PLIST1, epl:get_path(?PLIST1, [])),
 	?_assertMatch("woot", epl:get_path(?PLIST1, [b], "woot")),
 	?_assertMatch(1, epl:get_path(?PLIST1, [a])),
 	?_assertMatch(1, epl:get_path(?PLIST2, [a])),
