@@ -14,7 +14,9 @@ ERLC_FLAGS	:= -o${EBIN}
 $E$B:
 	erlc ${ERLC_FLAGS} $@
 
-all:
+all: build
+
+build:
 	rebar3 compile
 
 clean:

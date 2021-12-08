@@ -4,6 +4,7 @@
 -define(PLIST1, [{a, 1}]).
 -define(PLIST2, [{a, 1}, {b, [{c, [{d, 2},{e,3}]}]}]).
 -define(PLIST3, [{a, 1}, {l, ["foo","bar","bat"]}]).
+-define(PLIST4, [{a, 1}, {s, "foo"}]).
 
 get_path_test_() ->
 	[
@@ -47,4 +48,13 @@ is_plist_test_() ->
 	?_assertMatch(false, epl:is_plist([{key1, value1}, 123])),
 	?_assertMatch(true, epl:is_plist([{key1, value1}, key2, {key3, value3}])),
 	?_assertMatch(true, epl:is_plist([{key1, value1}, key2, {key3, [123, woot]}]))
+	].
+
+to_map_test_() ->
+	[
+	?_assertMatch(#{}, epl:to_map([])),
+	?_assertMatch(#{a := 1}, epl:to_map(?PLIST1)),
+	?_assertMatch(#{a := 1, b := #{c := #{d := 2, e := 3}}}, epl:to_map(?PLIST2)),
+	?_assertMatch(#{a := 1, l := ["foo","bar","bat"]}, epl:to_map(?PLIST3)),
+	?_assertMatch(#{a := 1, s := "foo"}, epl:to_map(?PLIST4))
 	].

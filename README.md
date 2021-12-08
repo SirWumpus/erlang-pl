@@ -12,6 +12,7 @@ Data Types
 * Value           :: term()
 * Default         :: term()
 * PathsValues     :: [{Path, Value}]
+* Map             :: map()
 
 
 Exports
@@ -40,6 +41,11 @@ Given a Path into Plist0, insert or replace a value.  If the Path specified does
 ### epl:set_paths(Plist0, PathsValues) -> Plist1
 
 Given a list of paths and values, insert or replace one or more values in Plist0.  See set_path/3.
+
+- - -
+### epl:to_map(Plist) -> Map
+
+Convert the nested Plist into a nested Map.
 
 
 Copyright

@@ -1,5 +1,8 @@
 -module(epl).
--export([get_path/2, get_path/3, set_path/3, set_paths/2, is_plist/1]).
+-export([
+    get_path/2, get_path/3, set_path/3, set_paths/2,
+    is_plist/1, to_map/1
+]).
 
 -type path() :: [atom()].
 -export_type([path/0]).
@@ -67,8 +70,24 @@ set_paths(Plist, PathsValues) ->
 %%
 -spec is_plist(Thing :: term()) -> boolean().
 is_plist(Thing) when is_list(Thing) ->
-	lists:all(fun (Item) ->
-		is_atom(Item) orelse (is_tuple(Item) andalso tuple_size(Item) == 2)
-	end, Thing);
+    lists:all(fun (Item) ->
+        is_atom(Item) orelse (is_tuple(Item) andalso tuple_size(Item) == 2)
+    end, Thing);
 is_plist(_Other) ->
-	false.
+    false.
+
+%% to_map(Plist) -> Map
+%%
+%% Convert the nested Plist into a nested Map.
+%%
+-spec to_map(Plist :: proplists:proplist()) -> map().
+to_map(Plist) ->
+    lists:foldl(fun
+        ({Key, Value}, Acc) when is_list(Value) ->
+            case is_plist(Value) of
+            true -> Acc#{Key => to_map(Value)};
+            false -> Acc#{Key => Value}
+            end;
+        ({Key, Value}, Acc) ->
+            Acc#{Key => Value}
+    end, #{}, Plist).
