@@ -4,6 +4,10 @@
     is_plist/1, to_map/1, from_map/1
 ]).
 
+-ifdef(EUNIT).
+-compile(export_all).
+-endif.
+
 -type path() :: [atom()].
 -export_type([path/0]).
 
@@ -58,6 +62,10 @@ set_paths(Plist, PathsValues) ->
         set_path(Acc, Path, Value)
     end, Plist, PathsValues).
 
+-spec is_plist_tuple(Thing :: term()) -> boolean().
+is_plist_tuple(Thing) ->
+    is_atom(Thing) orelse (is_tuple(Thing) andalso tuple_size(Thing) == 2).
+
 % X = [{a, 1}, {b, [{c, [{d, 2},{e,3}]}]}].
 % epl:set_paths(X, [{[b,c,z],123},{[z,y,x],321}]).
 % [{z,[{y,[{x,321}]}]},{b,[{c,[{z,123},{d,2},{e,3}]}]},{a,1}]
@@ -70,9 +78,7 @@ set_paths(Plist, PathsValues) ->
 %%
 -spec is_plist(Thing :: term()) -> boolean().
 is_plist(Thing) when is_list(Thing) ->
-    lists:all(fun (Item) ->
-        is_atom(Item) orelse (is_tuple(Item) andalso tuple_size(Item) == 2)
-    end, Thing);
+    lists:all(fun is_plist_tuple/1, Thing);
 is_plist(_Other) ->
     false.
 

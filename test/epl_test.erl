@@ -37,6 +37,20 @@ set_paths_test_() ->
 	?_assertMatch([{z,[{y,[{x,321}]}]},{b,[{c,[{z,123},{d,2},{e,3}]}]},{a,1}], epl:set_paths(?PLIST2, [ {[b,c,z],123}, {[z,y,x],321} ]))
 	].
 
+is_plist_tuple_test_() ->
+	[
+	?_assertMatch(true, epl:is_plist_tuple(ok)),
+	?_assertMatch(true, epl:is_plist_tuple({a, "woot"})),
+	?_assertMatch(true, epl:is_plist_tuple({a, {b, "woot"}})),
+	?_assertMatch(false, epl:is_plist_tuple(123)),
+	?_assertMatch(false, epl:is_plist_tuple([])),
+	?_assertMatch(false, epl:is_plist_tuple({})),
+	?_assertMatch(false, epl:is_plist_tuple(#{})),
+	?_assertMatch(false, epl:is_plist_tuple("abc")),
+	?_assertMatch(false, epl:is_plist_tuple([a, b, c])),
+	?_assertMatch(false, epl:is_plist_tuple({a, "woot", abc}))
+	].
+
 is_plist_test_() ->
 	[
 	?_assertMatch(false, epl:is_plist(atom)),
