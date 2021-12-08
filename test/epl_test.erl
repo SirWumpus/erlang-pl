@@ -58,3 +58,9 @@ to_map_test_() ->
 	?_assertMatch(#{a := 1, l := ["foo","bar","bat"]}, epl:to_map(?PLIST3)),
 	?_assertMatch(#{a := 1, s := "foo"}, epl:to_map(?PLIST4))
 	].
+
+from_map_test_() ->
+	[
+	?_assertMatch([], epl:from_map(#{})),
+	?_assertMatch([{d,[3,4]},{b,[{c,2}]},{a,1}], epl:from_map(#{a => 1, b => #{c => 2}, d => [3, 4]}))
+	].

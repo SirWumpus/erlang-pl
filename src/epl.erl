@@ -1,7 +1,7 @@
 -module(epl).
 -export([
     get_path/2, get_path/3, set_path/3, set_paths/2,
-    is_plist/1, to_map/1
+    is_plist/1, to_map/1, from_map/1
 ]).
 
 -type path() :: [atom()].
@@ -91,3 +91,16 @@ to_map(Plist) ->
         ({Key, Value}, Acc) ->
             Acc#{Key => Value}
     end, #{}, Plist).
+
+%% from_map(Map) -> Plist
+%%
+%% Convert the nested Map into a nested Plist.
+%%
+-spec from_map(Map :: map()) -> proplists:proplist().
+from_map(Map) ->
+    maps:fold(fun
+        (Key, Value, Acc) when is_map(Value) ->
+            [{Key, from_map(Value)} | Acc];
+        (Key, Value, Acc) ->
+            [{Key, Value} | Acc]
+    end, [], Map).

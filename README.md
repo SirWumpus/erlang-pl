@@ -47,6 +47,11 @@ Given a list of paths and values, insert or replace one or more values in Plist0
 
 Convert the nested Plist into a nested Map.
 
+-.-.-
+### epl:from_map(Map) -> Plist
+
+Convert the nested Map into a nested Plist.
+
 
 Copyright
 ---------
