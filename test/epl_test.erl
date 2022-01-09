@@ -27,6 +27,7 @@ get_path_test_() ->
 set_path_test_() ->
 	[
 	?_assertMatch(?PLIST1, epl:set_path([], [a], 1)),
+	?_assertMatch([{a, [{b, [{c, 3}]}]}], epl:set_path([], [a, b, c], 3)),
 	?_assertMatch([{a, 123}], epl:set_path(?PLIST1, [a], 123)),
 	?_assertMatch([{z, "woot"}, {a, 1}], epl:set_path(?PLIST1, [z], "woot")),
 	?_assertMatch([{b, [{c, [{e,"woop"},{d, 2}]}]}, {a, 1}], epl:set_path(?PLIST2, [b,c,e], "woop"))
