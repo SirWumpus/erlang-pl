@@ -8,7 +8,7 @@
 -compile(export_all).
 -endif.
 
--type path() :: [atom()].
+-type path() :: [atom() | pos_integer()].
 -export_type([path/0]).
 
 %% get_path(Plist, Keys) -> Value | undefined
@@ -30,6 +30,8 @@ get_path(undefined, _Keys, Default) ->
     Default;
 get_path(Plist, [], _Default) ->
     Plist;
+get_path(Plist, [Key | Keys], Default) when is_integer(Key) ->
+    get_path(lists:nth(Key, Plist), Keys, Default);
 get_path(Plist, [Key | Keys], Default) ->
     get_path(proplists:get_value(Key, Plist), Keys, Default).
 
@@ -39,9 +41,13 @@ get_path(Plist, [Key | Keys], Default) ->
 %% specified does not exist, it will be created.
 %%
 -spec set_path(Plist :: proplists:proplist(), Path :: path(), Value :: any()) -> proplists:proplist().
+set_path(Plist, [Key], Value) when is_integer(Key) ->
+    list_replace(Plist, Key, Value);
 set_path(Plist, [Key], Value) ->
     % Last key, update its value.
     [{Key, Value} | proplists:delete(Key, Plist)];
+set_path(Plist, [Key | Keys], Value) when is_integer(Key) ->
+    list_replace(Plist, Key, set_path(lists:nth(Key, Plist), Keys, Value));
 set_path(Plist, [Key | Keys], Value) ->
     case proplists:get_value(Key, Plist) of
     undefined ->
@@ -50,6 +56,12 @@ set_path(Plist, [Key | Keys], Value) ->
     SubList ->
         [{Key, set_path(SubList, Keys, Value)} | proplists:delete(Key, Plist)]
     end.
+
+-spec list_replace(List :: list(), N :: pos_integer(), New :: any()) -> list().
+list_replace([_Curr | Rest], 1, New) ->
+    [New | Rest];
+list_replace([Curr | Rest], N, New) ->
+    [Curr | list_replace(Rest, N-1, New)].
 
 %% set_paths(Plist0, PathsValues) -> Plist1
 %%

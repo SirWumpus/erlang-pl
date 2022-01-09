@@ -8,7 +8,7 @@ Data Types
 ----------
 
 * Plist           :: proplists:proplist()
-* Path            :: [atom()]
+* Path            :: [atom() | pos_integer()]
 * Value           :: term()
 * Default         :: term()
 * PathsValues     :: [{Path, Value}]

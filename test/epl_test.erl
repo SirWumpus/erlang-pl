@@ -5,6 +5,7 @@
 -define(PLIST2, [{a, 1}, {b, [{c, [{d, 2},{e,3}]}]}]).
 -define(PLIST3, [{a, 1}, {l, ["foo","bar","bat"]}]).
 -define(PLIST4, [{a, 1}, {s, "foo"}]).
+-define(PLIST5, [{a, 0}, {l, ["foo",?PLIST2,"bat"]}]).
 
 get_path_test_() ->
 	[
@@ -21,7 +22,9 @@ get_path_test_() ->
 	?_assertMatch(1, epl:get_path(?PLIST1, [a])),
 	?_assertMatch(1, epl:get_path(?PLIST2, [a])),
 	?_assertMatch(3, epl:get_path(?PLIST2, [b,c,e])),
-	?_assertMatch(["foo","bar","bat"], epl:get_path(?PLIST3, [l]))
+	?_assertMatch(["foo","bar","bat"], epl:get_path(?PLIST3, [l])),
+	?_assertMatch("bar", epl:get_path(?PLIST3, [l, 2])),
+	?_assertMatch(3, epl:get_path(?PLIST5, [l, 2, b, c, e]))
 	].
 
 set_path_test_() ->
@@ -30,7 +33,9 @@ set_path_test_() ->
 	?_assertMatch([{a, [{b, [{c, 3}]}]}], epl:set_path([], [a, b, c], 3)),
 	?_assertMatch([{a, 123}], epl:set_path(?PLIST1, [a], 123)),
 	?_assertMatch([{z, "woot"}, {a, 1}], epl:set_path(?PLIST1, [z], "woot")),
-	?_assertMatch([{b, [{c, [{e,"woop"},{d, 2}]}]}, {a, 1}], epl:set_path(?PLIST2, [b,c,e], "woop"))
+	?_assertMatch([{b, [{c, [{e,"woop"},{d, 2}]}]}, {a, 1}], epl:set_path(?PLIST2, [b,c,e], "woop")),
+	?_assertMatch([{l, ["foo", 999, "bat"]}, {a, 1}], epl:set_path(?PLIST3, [l, 2], 999)),
+	?_assertMatch([{l, ["foo", [{b, [{c, [{e, 999}, {d,2}]}]}, {a, 1}], "bat"]}, {a, 0}], epl:set_path(?PLIST5, [l, 2, b, c, e], 999))
 	].
 
 set_paths_test_() ->
