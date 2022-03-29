@@ -9,5 +9,6 @@
   {env,[]},
   {modules, [epl]},
   {licenses, ["MIT"]},
-  {links,[{"Github","https://github.com/SirWumpus/erlang-pl"}]}
- ]}.
+  {links,[{"Github","https://github.com/SirWumpus/erlang-pl"}]},
+  {files,["README.md","LICENSE","makefile","rebar.config","src","test"]}
+]}.
