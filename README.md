@@ -20,37 +20,37 @@ Exports
 
 ### epl:get_path(Plist0, Path) -> Value | undefined
 
-Given a Path into Plist0, return the value found; otherwise undefined if not found.
+Given a `Path` into `Plist0`, return the value found; otherwise undefined if not found.
 
 - - -
 ### epl:get_path(Plist0, Path, Default) -> Value | Default
 
-Given a Path into Plist0, return the value found; otherwise a Default value if not found.
+Given a `Path` into `Plist0`, return the value found; otherwise a `Default` value if not found.
 
 - - -
 ### epl:is_plist(Thing) -> true | false
 
-Return true if Thing adheres to a formal definition of a Plist (suitable to convert to JSON), where each list element is either an atom (short hand of `{Atom, true}`) or 2-tuple Key-Value.
+Return true if `Thing` adheres to a formal definition of a Plist (suitable to convert to JSON), where each list element is either an atom (short hand of `{Atom, true}`) or 2-tuple Key-Value.
 
 - - -
 ### epl:set_path(Plist0, Path, Value) -> Plist1
 
-Given a Path into Plist0, insert or replace a value.  If the Path specified does not exist, it will be created.
+Given a `Path` into `Plist0`, insert or replace a value.  If the `Path` specified does not exist, it will be created.
 
 - - -
 ### epl:set_paths(Plist0, PathsValues) -> Plist1
 
-Given a list of paths and values, insert or replace one or more values in Plist0.  See set_path/3.
+Given a list of paths and values, insert or replace one or more values in `Plist0`.  See `set_path/3`.
 
 - - -
 ### epl:to_map(Plist) -> Map
 
-Convert the nested Plist into a nested Map.
+Convert the nested `Plist` into a nested `Map`.
 
 - - -
 ### epl:from_map(Map) -> Plist
 
-Convert the nested Map into a nested Plist.
+Convert the nested `Map` into a nested `Plist`.
 
 
 Copyright
